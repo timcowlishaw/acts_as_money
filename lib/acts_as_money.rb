@@ -16,13 +16,12 @@ module ActsAsMoney #:nodoc:
 
   module ClassMethods
     def money(name, options = {})
+      mapping = [[(options[:cents] || :cents).to_s, 'cents']]
+      mapping << [(options[:currency] || :currency).to_s, 'currency_as_string'] if options[:currency] != false
       composed_of name,  {
         :class_name => 'Money',
         :allow_nil => options[:allow_nil],
-        :mapping => [
-          [(options[:cents] || :cents).to_s, 'cents'],
-          [(options[:currency] || :currency).to_s, 'currency_as_string']
-        ],
+        :mapping => mapping,
         :constructor => lambda {|cents, currency| options[:allow_nil] && !cents ? nil : Money.new(cents || 0, currency || Money.default_currency)},
         :converter => lambda {  |value|
           case value
