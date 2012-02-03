@@ -148,7 +148,7 @@ class MoneyTest < Test::Unit::TestCase
   
   def test_it_works_when_passing_a_empty_money_value
     refund = Refund.new
-    refund.amount = Money.new
+    refund.amount = Money.new(100)
     assert refund.save
   end
   
