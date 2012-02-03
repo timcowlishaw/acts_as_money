@@ -143,7 +143,19 @@ class MoneyTest < Test::Unit::TestCase
   def test_it_works_without_currency_columns
     refund = Refund.new
     refund.amount = Money.new(100, "USD")
-    refund.save
+    assert refund.save
+  end
+  
+  def test_it_works_when_passing_a_empty_money_value
+    refund = Refund.new
+    refund.amount = Money.new
+    assert refund.save
+  end
+  
+  def test_it_unserializes_when_currency_is_false
+    refund = Refund.create! :amount => 200
+    refund = Refund.find(refund.id)
+    assert_equal Money.new(200), refund.amount
   end
 
 end
