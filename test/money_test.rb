@@ -21,6 +21,11 @@ class MoneyTest < Test::Unit::TestCase
     acts_as_money
     money :price, :cents => :service_cents, :currency => :service_currency 
   end
+  
+  class Refund < ActiveRecord::Base
+    acts_as_money
+    money :amount, :currency => false
+  end
 
   def setup
     ActiveRecord::Base.establish_connection(
@@ -43,7 +48,12 @@ class MoneyTest < Test::Unit::TestCase
         t.integer :cents
         t.string  :currency
       end
+      
+      create_table :refunds do |t|
+        t.integer :cents
+      end
     end
+    
   
   end
 
@@ -128,6 +138,24 @@ class MoneyTest < Test::Unit::TestCase
     service = Service.find(service.id)
     assert_equal(service.service_currency, service.price.currency.iso_code)
     assert_equal(service.service_cents, service.price.cents)
+  end
+  
+  def test_it_works_without_currency_columns
+    refund = Refund.new
+    refund.amount = Money.new(100, "USD")
+    assert refund.save
+  end
+  
+  def test_it_works_when_passing_a_empty_money_value
+    refund = Refund.new
+    refund.amount = Money.new(100)
+    assert refund.save
+  end
+  
+  def test_it_unserializes_when_currency_is_false
+    refund = Refund.create! :amount => 200
+    refund = Refund.find(refund.id)
+    assert_equal Money.new(200), refund.amount
   end
 
 end
