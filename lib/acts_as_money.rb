@@ -22,8 +22,8 @@ module ActsAsMoney #:nodoc:
         :class_name => 'Money',
         :allow_nil => options[:allow_nil],
         :mapping => mapping,
-        :constructor => lambda {|cents, currency| options[:allow_nil] && !cents ? nil : Money.new(cents || 0, currency || Money.default_currency)},
-        :converter => lambda {  |value|
+        :constructor => Proc.new {|cents, currency| options[:allow_nil] && !cents ? nil : Money.new(cents || 0, currency || Money.default_currency)},
+        :converter => Proc.new {  |value|
           case value
           when Fixnum
             Money.new(value, Money.default_currency)
