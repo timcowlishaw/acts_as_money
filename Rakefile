@@ -6,9 +6,9 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
     s.name= "acts_as_money"
-    s.version= "0.2.4" 
+    s.version= "0.2.5" 
     s.summary= "A fairly trivial plugin allowing easy serialisation of Money values (from the money gem) as attributes on activerecord objects"
-    s.author = "Tim Cowlishaw"
+    s.author = ["Jordan Glasner", "Econsultancy", "Tim Cowlishaw", "Ylan Segal"]
     s.email = "tim@timcowlishaw.co.uk"
     s.homepage = "http://github.com/timcowlishaw/acts_as_money"
     s.has_rdoc = false

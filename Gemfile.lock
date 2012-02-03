@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    acts_as_money (0.2.4)
+    acts_as_money (0.2.5)
       activerecord
       money
 
